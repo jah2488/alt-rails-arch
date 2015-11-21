@@ -1,0 +1,4 @@
+cache: bundler
+after_script: %{ruby -e "Dir['config/*.rb'].each {|f| require \"./#{f}\" }; Dir['db/migrations/*.rb'].each { |f| require \"./#{f}\" }; CreatePosts.run" }
+rvm:
+  - 2.2.3
