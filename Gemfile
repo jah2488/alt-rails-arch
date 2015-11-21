@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
 
 #Infrastructure
 gem 'rails', '4.2.4'
 gem 'puma'
+gem 'rails_12factor', group: :production
 
 #Persistance
 gem 'sqlite3'
