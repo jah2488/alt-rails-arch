@@ -1,4 +1,4 @@
-# Experimental Rails Architecture
+# Experimental Rails Architecture [![Build Status](https://travis-ci.org/jah2488/alt-rails-arch.svg?branch=master)](https://travis-ci.org/jah2488/alt-rails-arch)
 - [TODO] Finish App
 
 ## Major Changes
