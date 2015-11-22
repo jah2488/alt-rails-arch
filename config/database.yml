@@ -1,17 +1,36 @@
+# default: &default
+#   adapter: sqlite3
+#   pool: 5
+#   timeout: 5000
+#
+# development:
+#   <<: *default
+#   database: db/development.sqlite3
+#
+# test:
+#   <<: *default
+#   database: ":memory:"
+#   verbosity: quiet
+#
+# production:
+#   <<: *default
+#   database: db/production.sqlite3
+#
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: 5
-  timeout: 5000
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: alt_arch_rails_development
 
 test:
   <<: *default
-  database: ":memory:"
-  verbosity: quiet
+  database: alt_arch_rails_test
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: alt_arch_rails_prod
+  username: alt_arch_rails
+  password: <%= ENV['ALT_ARCH_RAILS_PASSWORD']

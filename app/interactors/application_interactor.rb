@@ -1,5 +1,6 @@
 class ApplicationInteractor
   attr_reader :repository, :controller
+  
   def initialize(repository, controller)
     @repository = repository
     @controller = controller

@@ -123,6 +123,7 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    pg (0.18.3)
     pry (0.10.2)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -231,6 +232,7 @@ DEPENDENCIES
   jquery-rails
   minitest-rails
   minitest-rails-capybara
+  pg
   pry
   puma
   quiet_assets

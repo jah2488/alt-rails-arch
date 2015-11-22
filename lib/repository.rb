@@ -33,7 +33,14 @@ module Repository
   end
 
   def column_names
-    @column_names ||= get_records_from_query("SELECT * FROM #{table_name} LIMIT 0;", include_column_names: true).first
+    @column_names ||= (
+      results = get_records_from_query("SELECT * FROM #{table_name} LIMIT 0;", include_column_names: true)
+      if results.respond_to?(:fields)
+        results.fields
+      else
+        results.first
+      end
+    )
   end
 
   def first
@@ -46,7 +53,7 @@ module Repository
 
   def pluck(*attrs)
     results = get_records_from_query(select(*([:id] | attrs)).query.sql, no_log: true).drop(1)
-    results.map { |set| set.drop(1) } if results.first && results.first.length > 1
+    results.map! { |set| set.drop(1) } if results.first && results.first.length > 1
     results
   end
 
@@ -130,50 +137,35 @@ module Repository
     return "*" if attrs.empty?
     Array(attrs).map do |attr|
       if translate
-        "\"#{mapping.fetch(attr, attr).to_s}\""
+        "#{mapping.fetch(attr, attr).to_s}"
       else
-        "\"#{attr.to_s}\""
+        "'#{attr.to_s.gsub("'", "''")}'"
       end
     end.join(", ")
   end
 
-  def translate_fields(field)
+  def translate_field(field)
     mapping.invert.fetch(field.to_sym, field.to_sym)
   end
 
   def perform_query(sql, opts = {})
     results = get_records_from_query(sql, opts)
-    columns = results.shift
-    results.map do |row|
-      attr_hash    = Hash[column_names.map(&method(:translate_fields)).zip([nil] * column_names.count)]
-      results_hash = Hash[columns.map(&method(:translate_fields)).zip(row)]
-      model_attr_hash = attr_hash.merge(results_hash)
-      model.public_send(model_meth, **model_attr_hash)
+    if results.respond_to?(:fields)
+      results.map do |row|
+        model.public_send(model_meth, **(Hash[row.map { |k, v| [translate_field(k), v] }]))
+      end
+    else
+      columns = results.shift
+      results.map do |row|
+        attr_hash    = Hash[column_names.map(&method(:translate_field)).zip([nil] * column_names.count)]
+        results_hash = Hash[columns.map(&method(:translate_field)).zip(row)]
+        model_attr_hash = attr_hash.merge(results_hash)
+        model.public_send(model_meth, **model_attr_hash)
+      end
     end
   end
 
   def get_records_from_query(sql, opts = {})
-    options = { include_column_names: true }.merge(opts)
-    results = []
-    time = Benchmark.ms do
-      begin
-        DB.connection.transaction do |db|
-          if options[:include_column_names]
-            results = db.execute2(sql)
-          else
-            results = db.execute(sql)
-          end
-        end
-      rescue SQLite3::SQLException => e
-        Rails.logger.fatal sql.inspect if Rails.logger
-        raise e
-      end
-    end
-    unless options[:no_log]
-      $count = $count.to_i
-      Rails.logger.info "[#{$count}][#{time.round(2).to_s.rjust(4)}ms][#{results.length.to_s.rjust(3)} rows][#{sql.strip}]" if Rails.logger
-      $count += 1
-    end
-    results
+    DB.execute(sql, { include_column_names: true }.merge(opts))
   end
 end

@@ -4,7 +4,7 @@ class FieldTypeValidationError < StandardError
   end
 
   def message
-    "Field :#{@key} is expected to be type #{@attributes[@key][:type]}, but you provided #{@fields[@key].class}"
+    "Field :#{@key} is expected to be type #{@attributes.fetch(@key).fetch(:type, 'unknown type')}, but you provided #{@fields[@key].class}"
   end
 end
 
@@ -23,7 +23,7 @@ class Model
         unless type_attributes[key][:type] == :no_validation ||
                (type_attributes[key][:type] == Boolean && (fields[key] == true || fields[key] == false)) ||
                fields[key].is_a?(type_attributes[key][:type])
-          raise FieldTypeValidationError.new(attributes, fields, key)
+          raise FieldTypeValidationError.new(type_attributes, fields, key)
         end
       end
       instance_variable_set("@#{key}".to_sym, fields.fetch(key, type_attributes[key][:default]))

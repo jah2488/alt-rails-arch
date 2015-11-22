@@ -10,6 +10,7 @@ SimpleCov.start 'rails'
 
 #Migrations
 Dir[Rails.root.join('db', 'migrations', '*.rb')].each { |file| require file }
+
 [ CreatePosts ].each do |migration|
   migration.send(:run)
 end

@@ -9,6 +9,7 @@ gem 'rails_12factor', group: :production
 
 #Persistance
 gem 'sqlite3'
+gem 'pg'
 
 #View/Assets
 gem 'react-rails', '~> 1.4.0'

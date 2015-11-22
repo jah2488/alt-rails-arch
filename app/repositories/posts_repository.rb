@@ -8,7 +8,7 @@ class PostsRepository
   map(title: :name)
 
   def count # This may need to be rolled into the repository module as a one off method, its pretty common and this is ugly
-    select('count(*)').raw_execute.flatten.first.to_i
+    select('count(*)').raw_execute.first['count']
   end
 
   def find(id)
