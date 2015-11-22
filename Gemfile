@@ -8,7 +8,7 @@ gem 'puma'
 gem 'rails_12factor', group: :production
 
 #Persistance
-gem 'sqlite3'
+# gem 'sqlite3'
 gem 'pg'
 
 #View/Assets
