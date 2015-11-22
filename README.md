@@ -1,5 +1,7 @@
 # Experimental Rails Architecture [![Build Status](https://travis-ci.org/jah2488/alt-rails-arch.svg?branch=master)](https://travis-ci.org/jah2488/alt-rails-arch)
 - [TODO] Finish App
+- Define a 'Results API' that all adaptors will adhere to for all queries.
+  - This should also allow me to delegate to the adaptor for the 2 or 3 places in the repository class that is coupled to the exact implementation of the db library. This should _theoretically_ allow adaptors to be written that aren't backed by a database, but instead by anything really.
 
 ## Major Changes
 
