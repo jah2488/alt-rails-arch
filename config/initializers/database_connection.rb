@@ -89,7 +89,7 @@ module DB
           port: uri.port,
           user: uri.user,
           password: uri.password,
-          dbname: uri.path
+          dbname: uri.path[1..-1]
         })
       else
         conn = PG::Connection.open(dbname: config['database'])
