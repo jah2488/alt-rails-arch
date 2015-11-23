@@ -82,7 +82,19 @@ module DB
   class PostgresAdapter < Adapter
     def connect(config)
       system("createdb #{config['database']}")
-      conn = PG::Connection.open(dbname: ENV["DATABASE_URL"] || config['database'])
+      if ENV["DATABASE_URL"] #if Heroku
+        uri  = URI(ENV["DATABASE_URL"])
+        conn = PG::Connection.open({
+          host: uri.host,
+          port: uri.post,
+          user: uri.username,
+          password: uri.password,
+          database: uri.path,
+          dbname: uri.path
+        })
+      else
+        conn = PG::Connection.open(dbname: config['database'])
+      end
       fail "Connect to PostgresDB failed: #{conn.error_message}" unless conn.status == PG::CONNECTION_OK
       conn.type_map_for_results = PG::BasicTypeMapForResults.new(conn)
       conn.type_map_for_queries = PG::BasicTypeMapForQueries.new(conn)
