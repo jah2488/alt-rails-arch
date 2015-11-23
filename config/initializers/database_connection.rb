@@ -86,7 +86,7 @@ module DB
         uri  = URI(ENV["DATABASE_URL"])
         conn = PG::Connection.open({
           host: uri.host,
-          port: uri.post,
+          port: uri.port,
           user: uri.username,
           password: uri.password,
           database: uri.path,
