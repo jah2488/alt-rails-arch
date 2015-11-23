@@ -82,7 +82,7 @@ module DB
   class PostgresAdapter < Adapter
     def connect(config)
       system("createdb #{config['database']}")
-      conn = PG::Connection.open(dbname: config['database'])
+      conn = PG::Connection.open(dbname: ENV["DATABASE_URL"] || config['database'])
       fail "Connect to PostgresDB failed: #{conn.error_message}" unless conn.status == PG::CONNECTION_OK
       conn.type_map_for_results = PG::BasicTypeMapForResults.new(conn)
       conn.type_map_for_queries = PG::BasicTypeMapForQueries.new(conn)

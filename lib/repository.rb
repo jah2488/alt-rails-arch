@@ -137,9 +137,9 @@ module Repository
     return "*" if attrs.empty?
     Array(attrs).map do |attr|
       if translate
-        "#{mapping.fetch(attr, attr).to_s}"
+        "#{mapping.fetch(attr, attr)}"
       else
-        "'#{attr.to_s.gsub("'", "''")}'"
+        "'#{attr.gsub("'", "''")}'"
       end
     end.join(", ")
   end
