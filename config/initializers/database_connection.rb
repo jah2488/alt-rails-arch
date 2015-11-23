@@ -89,7 +89,6 @@ module DB
           port: uri.port,
           user: uri.user,
           password: uri.password,
-          database: uri.path,
           dbname: uri.path
         })
       else
