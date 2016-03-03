@@ -1,4 +1,5 @@
-# Experimental Rails Architecture [![Build Status](https://travis-ci.org/jah2488/alt-rails-arch.svg?branch=master)](https://travis-ci.org/jah2488/alt-rails-arch)
+# Experimental Rails Architecture
+[![Build Status](https://travis-ci.org/jah2488/alt-rails-arch.svg?branch=master)](https://travis-ci.org/jah2488/alt-rails-arch) [![Code Climate](https://codeclimate.com/github/jah2488/alt-rails-arch/badges/gpa.svg)](https://codeclimate.com/github/jah2488/alt-rails-arch) [![Test Coverage](https://codeclimate.com/github/jah2488/alt-rails-arch/badges/coverage.svg)](https://codeclimate.com/github/jah2488/alt-rails-arch/coverage)
 - [TODO] Finish App
 - Define a 'Results API' that all adaptors will adhere to for all queries.
   - This should also allow me to delegate to the adaptor for the 2 or 3 places in the repository class that is coupled to the exact implementation of the db library. This should _theoretically_ allow adaptors to be written that aren't backed by a database, but instead by anything really.
@@ -20,8 +21,8 @@
 ### Logic-less Controllers
   - All controller actions should be two lines or less.
   - Any of the logic that you'd normally find in a controller belongs in an `Interactor` or a `Service` object of some sort.
-  
-  
+
+
 ## Main Structure / Components
   - `Models` : Domain Logic and Business Rules.
   - `Repositories` : Database layer, used for querying and inserting.

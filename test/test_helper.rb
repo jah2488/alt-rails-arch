@@ -5,7 +5,9 @@ require "minitest/rails"
 require "minitest/pride"
 require "minitest/rails/capybara"
 require "simplecov"
+require "codeclimate-test-reporter"
 
+CodeClimate::TestReporter.start
 SimpleCov.start 'rails'
 
 #Migrations

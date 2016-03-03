@@ -30,6 +30,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'guard'
   gem 'guard-minitest', require: false
+  gem "codeclimate-test-reporter", group: :test, require: nil
   gem 'simplecov'
   gem 'ruby-prof'
 end
